@@ -75,6 +75,22 @@ const getZooNombre = async (req,res) =>{
     res.status(200).json(response.rows);
 }
 
+const createZoo = async (req,res) =>{
+    const {zoo_name,city_id,zoo_size,budget} = req.body;
+    let response;
+    try{
+        response = await pool_zoo.query('INSERT INTO zoos(zoo_name,city_id,zoo_size,budget) VALUES($1,$2,$3,$4)',[zoo_name,city_id,zoo_size,budget]);
+    }catch(e){
+        res.status(500).json({
+            "error": e.message
+        })
+        return;
+    }
+
+
+    res.status(200).json(response.rows);
+}
+
 
 
 
@@ -82,5 +98,6 @@ module.exports = {
     getAllZoo,
     getOneZoo,
     getZooBudget,
-    getZooNombre
+    getZooNombre,
+    createZoo
 }
